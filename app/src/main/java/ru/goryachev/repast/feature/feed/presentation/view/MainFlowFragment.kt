@@ -2,8 +2,10 @@ package ru.goryachev.repast.feature.feed.presentation.view
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
+import kotlinx.android.synthetic.main.fmt_flow.*
 import ru.goryachev.repast.Screens
 import ru.goryachev.repast.di.DI
 import ru.goryachev.repast.di.inject
@@ -11,9 +13,11 @@ import ru.goryachev.repast.di.moduleFlow
 import ru.goryachev.repast.feature.feed.data.FeedRepository
 import ru.goryachev.repast.feature.feed.domain.FeedInteractor
 import ru.goryachev.repast.feature.feed.presentation.detail.presenter.FeedPresenter
+import ru.goryachev.repast.feature.feed.presentation.feed.view.FavoriteFeedFragment
 import ru.goryachev.repast.feature.feed.presentation.feed.view.FeedFragment
 import ru.goryachev.repast.feature.feed.presentation.presenter.MainFlowPresenter
 import ru.goryachev.repast.feature.global.FlowFragment
+import ru.goryachev.repast.feature.splash.presentation.view.ProfileFragment
 import ru.goryachev.repast.model.system.flow.FlowNavigator
 import ru.goryachev.repast.model.system.flow.GlobalRouter
 import toothpick.Toothpick
@@ -43,7 +47,8 @@ class MainFlowFragment : FlowFragment(), MainFlowView {
             override fun createFragment(screenKey: String?, data: Any?): Fragment? {
                 return when (screenKey) {
                     Screens.SCREEN_FEED -> FeedFragment.newInstance()
-                    Screens.SCREEN_MY_FEED -> null
+                    Screens.SCREEN_MY_FEED -> FavoriteFeedFragment.newInstance()
+                    Screens.SCREEN_PROFILE -> ProfileFragment.newInstance()
                     else -> null
                 }
             }
@@ -56,5 +61,14 @@ class MainFlowFragment : FlowFragment(), MainFlowView {
             bind(FeedInteractor::class.java).singletonInScope()
             bind(FeedPresenter::class.java)
         }.inject(this)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        bottomNavigationView.setOnNavigationItemSelectedListener {
+            presenter.onNavigationChanged(it.itemId)
+            return@setOnNavigationItemSelectedListener true
+        }
     }
 }

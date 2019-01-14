@@ -10,10 +10,10 @@ import ru.goryachev.fieldsadapter.matcher.FieldViewHolder
 import ru.goryachev.repast.R
 import ru.goryachev.repast.feature.feed.domain.RestaurantEntity
 
-class FeedAdapter(itemsList: List<Any>,
-                  val callListener: (String) -> Unit,
-                  val tipListener: (RestaurantEntity) -> Unit,
-                  val starListener: (RestaurantEntity) -> Unit) : FieldsAdapter<Any>() {
+class FavoriteFeedAdapter(itemsList: List<Any>,
+                          val callListener: (String) -> Unit,
+                          val tipListener: (RestaurantEntity) -> Unit,
+                          val starListener: (RestaurantEntity) -> Unit) : FieldsAdapter<Any>() {
 
     init {
         addXmlLayouter(R.layout.list_item_header) {
@@ -21,7 +21,7 @@ class FeedAdapter(itemsList: List<Any>,
             creator { view, viewGroup -> HeaderItemViewHolder(view, viewGroup) }
         }
 
-        addXmlLayouter(R.layout.list_item_restoraunt) {
+        addXmlLayouter(R.layout.list_item_favorite_restoraunt) {
             matcher { it is RestaurantEntity }
             creator { view, viewGroup -> RestaurantItemViewHolder(view, viewGroup) }
         }

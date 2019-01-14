@@ -133,10 +133,10 @@
             android:minWidth="0dp"
             android:minHeight="0dp"
             android:padding="@dimen/padding_small"
-            app:srcCompat="@drawable/ic_star_outline"
             app:layout_constraintBottom_toBottomOf="@+id/setTip"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/setTip" />
+            app:layout_constraintTop_toTopOf="@+id/setTip"
+            app:srcCompat="@drawable/ic_star_outline" />
 
         <ImageButton
             android:id="@+id/callBtn"
@@ -149,10 +149,23 @@
             android:minWidth="0dp"
             android:minHeight="0dp"
             android:padding="@dimen/padding_small"
-            app:layout_constraintBottom_toBottomOf="@+id/setTip"
+            app:layout_constraintBottom_toBottomOf="@id/setTip"
             app:layout_constraintEnd_toStartOf="@id/starBtn"
-            app:layout_constraintTop_toTopOf="@+id/setTip"
+            app:layout_constraintTop_toTopOf="@id/setTip"
             app:srcCompat="@drawable/ic_phone" />
+
+        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+            android:id="@+id/expandableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="360dp"
+            android:background="@android:color/holo_blue_light"
+            app:ael_duration="500"
+            app:ael_expanded="false"
+            app:ael_interpolator="bounce"
+            app:ael_orientation="vertical"
+            app:layout_constraintEnd_toEndOf="@id/title"
+            app:layout_constraintStart_toStartOf="@id/title"
+            app:layout_constraintTop_toBottomOf="@id/setTip" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

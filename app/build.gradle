@@ -78,6 +78,9 @@ dependencies {
 
     implementation "com.arello-mobile:moxy:$versions.moxy"
     implementation "com.arello-mobile:moxy-app-compat:$versions.moxy" exclude group: 'com.android.support'
+
+    implementation 'com.github.aakira:expandable-layout:1.6.0@aar'
+
     kapt libraries.moxyCompiler
 
     implementation "ru.terrakok.cicerone:cicerone:$versions.cicerone"

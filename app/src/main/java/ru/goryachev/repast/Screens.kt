@@ -11,6 +11,7 @@ object Screens {
     const val FLOW_MAIN = "FLOW_MAIN"
     const val SCREEN_FEED = "SCREEN_FEED"
     const val SCREEN_MY_FEED = "SCREEN_MY_FEED"
+    const val SCREEN_PROFILE = "SCREEN_PROFILE"
 
 
     @Suppress("UNCHECKED_CAST")

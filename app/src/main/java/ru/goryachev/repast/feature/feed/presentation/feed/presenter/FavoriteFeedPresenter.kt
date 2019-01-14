@@ -6,6 +6,7 @@ import ru.goryachev.repast.feature.feed.domain.FeedInteractor
 import ru.goryachev.repast.feature.feed.domain.RestaurantEntity
 import ru.goryachev.repast.feature.feed.presentation.adapter.ListItemHeader
 import ru.goryachev.repast.feature.feed.presentation.adapter.ListItemQR
+import ru.goryachev.repast.feature.feed.presentation.detail.view.FavoriteFeedView
 import ru.goryachev.repast.feature.feed.presentation.detail.view.FeedView
 import ru.goryachev.repast.feature.global.presentation.ErrorHandler
 import ru.goryachev.repast.feature.global.presentation.RxDecor
@@ -15,23 +16,22 @@ import ru.goryachev.repast.model.system.flow.FlowRouter
 import ru.goryachev.repast.model.system.rx.SchedulersProvider
 import ru.goryachev.repast.model.system.rx.subscribe
 import javax.inject.Inject
-import kotlin.math.round
 
 @InjectViewState
-class FeedPresenter @Inject constructor(val router: FlowRouter,
+class FavoriteFeedPresenter @Inject constructor(val router: FlowRouter,
                                         private val interactor: FeedInteractor,
                                         private val errorHandler: ErrorHandler,
                                         private val schedulersProvider: SchedulersProvider,
-                                        private val resourceProvider: ResourceProvider) : Presenter<FeedView>(router) {
+                                        private val resourceProvider: ResourceProvider) : Presenter<FavoriteFeedView>(router) {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
 
-        getRestaurants()
+        getFavoriteRestourants()
     }
 
-    private fun getRestaurants() {
-        interactor.getRestaurantsFeed()
+    private fun getFavoriteRestourants() {
+        interactor.getResturantsFeedWithLikes()
                 .observeOn(schedulersProvider.main())
                 .compose(lifecycle())
                 .compose(RxDecor.loading(viewState))
@@ -43,28 +43,12 @@ class FeedPresenter @Inject constructor(val router: FlowRouter,
     }
 
     private fun getUIItems(restaurants: List<RestaurantEntity>): List<Any> {
-        val title = resourceProvider.getString(R.string.header_review)
-        val subTitle = resourceProvider.getString(R.string.header_review_subtitle)
+        val title = resourceProvider.getString(R.string.header_favorite)
+        val subTitle = resourceProvider.getString(R.string.header_favorite_subtitle)
         val header = ListItemHeader(title, subTitle)
         return mutableListOf<Any>(header).apply {
             addAll(restaurants)
-            add(ListItemQR { scanQR() })
         }
     }
 
-    private fun scanQR() {
-        router.showSystemMessage("Нажата кнопка сканирования QR")
-    }
-
-    fun starTap(restaurantEntity: RestaurantEntity) {
-        router.showSystemMessage("Нажата кнопка оценки ресторана ${restaurantEntity.title}")
-    }
-
-    fun callTap(phone: String) {
-        router.showSystemMessage("Нажата кнопка позвонить $phone")
-    }
-
-    fun tipTap(restaurantEntity: RestaurantEntity) {
-        router.showSystemMessage("Нажата кнопка чаевые ресторана ${restaurantEntity.title}")
-    }
 }
